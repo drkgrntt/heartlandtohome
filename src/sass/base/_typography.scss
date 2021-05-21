@@ -1,0 +1,80 @@
+body {
+  font-family: 'Montserrat', 'Lato', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: $color-grey-dark;
+  font-size: 1.6rem;
+}
+
+.heading-primary {
+  color: $color-grey-light;
+  display: inline-block;
+  font-family: 'Raleway', sans-serif;
+
+  @include respond(tab-land) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &--main {
+    font-size: 5rem;
+    letter-spacing: 0.5rem;
+    font-weight: 500;
+    display: block;
+    line-height: 1;
+    margin-bottom: 1rem;
+
+    animation: moveInLeft 1s ease-out;
+
+    @include respond(tab-port) {
+      font-size: 6.5rem;
+      letter-spacing: 0.7rem;
+    }
+  }
+
+  &--sub {
+    font-size: 2rem;
+    font-weight: 400;
+    display: block;
+    letter-spacing: 0.2rem;
+    margin-bottom: 2rem;
+
+    animation: moveInLeft 1s ease-out 0.4s;
+    animation-fill-mode: backwards;
+  }
+}
+
+.heading-secondary {
+  font-family: 'Raleway', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  display: block;
+  color: $color-grey-dark;
+  line-height: 1;
+}
+
+.heading-tertiary,
+.heading-tertiary--dark {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $color-grey-dark;
+
+  &--light {
+    color: $color-grey-light;
+  }
+}
+
+p,
+a {
+  .fa,
+  .fas,
+  .far,
+  .fab,
+  .fal,
+  .fad,
+  .svg-inline--fa {
+    color: $color-grey-dark;
+    font-size: 3rem;
+  }
+}

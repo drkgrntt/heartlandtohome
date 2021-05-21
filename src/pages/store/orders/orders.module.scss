@@ -1,0 +1,30 @@
+@import 'src/sass/abstracts/_mixins.scss';
+@import 'src/sass/abstracts/_variables.scss';
+
+.main {
+  @include sectionStyle();
+}
+
+.order {
+  list-style: none;
+  border-bottom: 0.1rem solid $color-grey;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  justify-items: start;
+
+  &Notes {
+    white-space: pre-wrap;
+  }
+}
+
+.actions {
+  margin: 2rem 0;
+}
+
+.ship {
+  margin-right: 1rem;
+}

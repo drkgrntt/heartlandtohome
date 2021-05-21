@@ -1,0 +1,11 @@
+@import 'src/sass/abstracts/_mixins.scss';
+@import 'src/sass/abstracts/_variables.scss';
+
+.main {
+  @include sectionStyle();
+}
+
+.container {
+  max-width: $max-text-width;
+  margin: 0 auto;
+}

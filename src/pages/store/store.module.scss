@@ -1,0 +1,10 @@
+@import 'src/sass/abstracts/_mixins.scss';
+@import 'src/sass/abstracts/_variables.scss';
+@import 'src/sass/base/_animations';
+
+.store {
+  background-color: $color-grey-light;
+  & > * {
+    animation: fadeIn 0.6s ease-out;
+  }
+}

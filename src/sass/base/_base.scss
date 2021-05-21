@@ -1,0 +1,30 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  word-wrap: break-word;
+}
+
+html {
+  font-size: 50%;
+
+  // @include respond(tab-port) {
+  //   font-size: 52.5%;
+  // }
+  // @include respond(tab-land) {
+  //   font-size: 55%;
+  // }
+  // @include respond(desktop) {
+  //   font-size: 57.5%;
+  // }
+  @include respond(big-desktop) {
+    font-size: 60%;
+  }
+}
+
+body {
+  box-sizing: border-box;
+  background-color: $color-grey-light;
+}

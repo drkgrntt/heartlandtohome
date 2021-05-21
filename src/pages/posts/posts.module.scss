@@ -1,0 +1,30 @@
+@import 'src/sass/abstracts/_mixins.scss';
+@import 'src/sass/abstracts/_variables.scss';
+
+.main {
+  @include sectionStyle();
+  padding-top: 0;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+
+  border-bottom: 0.1rem solid $color-grey-dark;
+  margin-bottom: 0;
+
+  @include respond(tab-land) {
+    flex-direction: row;
+    margin-bottom: 2rem;
+  }
+}
+
+.input {
+  max-width: 40rem;
+}
+
+.header {
+}

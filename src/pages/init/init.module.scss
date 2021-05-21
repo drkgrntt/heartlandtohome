@@ -1,0 +1,27 @@
+@import 'src/sass/abstracts/_mixins.scss';
+@import 'src/sass/abstracts/_variables.scss';
+
+.main {
+  background-color: $color-grey-light;
+  padding: 5rem 3vw;
+
+  @include respond(tab-port) {
+    padding: 5rem 5vw;
+    padding-bottom: 10rem;
+  }
+
+  @include respond(tab-land) {
+    padding: 5rem 15vw;
+    padding-bottom: 10rem;
+  }
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.button {
+  align-self: flex-end;
+}

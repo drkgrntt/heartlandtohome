@@ -1,0 +1,34 @@
+// COLORS
+// ========================
+
+// neutrals
+$color-white: rgb(255, 255, 255);
+$color-grey-light: rgb(250, 250, 250);
+$color-grey-light-2: rgb(221, 221, 221);
+$color-grey: rgb(136, 136, 136);
+$color-grey-dark: rgb(51, 51, 51);
+$color-grey-dark-2: rgb(85, 85, 85);
+$color-black: rgb(0, 0, 0);
+
+// palette
+$color-primary: rgb(46, 147, 230);
+$color-secondary: rgb(255, 183, 28);
+$color-tertiary: rgb(243, 52, 77);
+
+$color-edit: $color-secondary;
+$color-warning: $color-secondary;
+$color-notice: $color-secondary;
+
+$color-delete: $color-tertiary;
+$color-error: $color-tertiary;
+$color-cta: $color-tertiary;
+
+// FONT
+$default-font-size: 1.6rem;
+
+// COMMON STYLES
+$shadow-high: 0 .6rem 1.8rem rgba($color-black, .4);
+$shadow-low: 0 .3rem .9rem rgba($color-black, .6);
+$max-section-width: 130rem;
+$max-text-width: 73rem;
+$gap-width: 1.3rem;

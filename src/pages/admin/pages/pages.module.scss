@@ -1,0 +1,30 @@
+@import 'src/sass/abstracts/_mixins.scss';
+@import 'src/sass/abstracts/_variables.scss';
+
+.main {
+  @include sectionStyle();
+  background-color: $color-grey-light;
+}
+
+.page {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 0.1rem solid $color-grey;
+  padding: 1rem 0;
+
+  @include respond(tab-port) {
+    flex-direction: row;
+    border: none;
+    padding: 0;
+  }
+}
+
+.linkDivider {
+  display: none;
+
+  @include respond(tab-port) {
+    display: block;
+    margin: 0 1rem;
+  }
+}

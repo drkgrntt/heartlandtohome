@@ -1,0 +1,201 @@
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin sectionStyle {
+  padding: 2rem 1.5rem;
+  max-width: $max-section-width;
+  margin: 0 auto;
+  background-color: $color-grey-light;
+
+  @include respond(tab-port) {
+    padding: 3.5rem 2.5rem;
+  }
+
+  @include respond(tab-land) {
+    padding: 5rem 3.5rem;
+  }
+}
+
+@mixin absCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin inputLabelStyle {
+  font-size: 1.5rem;
+  letter-spacing: 0.1rem;
+}
+
+@mixin inputBorderStyle {
+  border-top: 0.1rem solid $color-grey;
+  border-left: 0.1rem solid $color-grey;
+  border-bottom: 0.1rem solid $color-grey-light;
+  border-right: 0.1rem solid $color-grey-light;
+  border-radius: 0.3rem;
+}
+
+@mixin contentStyle {
+  padding-top: 1rem;
+  letter-spacing: 0.1rem;
+
+  p:not(:last-of-type) {
+    margin-bottom: 3rem;
+  }
+
+  img {
+    max-width: 80%;
+    margin: 0 auto;
+    display: block;
+  }
+
+  ul,
+  ol {
+    margin-left: 4rem;
+  }
+
+  table {
+    margin: 0 auto;
+    min-width: 90%;
+  }
+
+  pre {
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    margin-bottom: 3rem;
+    background-color: $color-grey-light-2;
+    padding: 1rem 2rem;
+  }
+}
+
+@mixin buttonStyle($type: primary, $size: normal) {
+  padding: 1rem 3.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  font-size: 1.5rem;
+  border: 0.2rem solid $color-black;
+  background-color: $color-white;
+  color: $color-black;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 0.3rem;
+
+  &:hover {
+    color: $color-white;
+    background-color: transparent;
+    border: 0.2rem solid $color-white;
+  }
+
+  @if $type == primary {
+    border: 0.2rem solid $color-primary;
+    color: $color-white;
+    background-color: $color-primary;
+    transition: all 0.3s;
+
+    &:hover {
+      color: $color-primary;
+      background-color: transparent;
+      border: 0.2rem solid $color-primary;
+    }
+  }
+
+  @if $type == secondary {
+    border: 0.2rem solid $color-secondary;
+    color: $color-white;
+    background-color: $color-secondary;
+    transition: all 0.3s;
+
+    &:hover {
+      color: $color-secondary;
+      background-color: transparent;
+      border: 0.2rem solid $color-secondary;
+    }
+  }
+
+  @if $type == tertiary {
+    border: 0.2rem solid $color-tertiary;
+    color: $color-white;
+    background-color: $color-tertiary;
+    transition: all 0.3s;
+
+    &:hover {
+      color: $color-tertiary;
+      background-color: transparent;
+      border: 0.2rem solid $color-tertiary;
+    }
+  }
+
+  @if $type == cta {
+    border: 0.2rem solid $color-cta;
+    color: $color-white;
+    background-color: $color-cta;
+    transition: all 0.3s;
+
+    &:hover {
+      color: $color-cta;
+      background-color: transparent;
+      border: 0.2rem solid $color-cta;
+    }
+  }
+
+  @if $type == edit {
+    border: 0.2rem solid $color-edit;
+    color: $color-white;
+    background-color: $color-edit;
+    transition: all 0.3s;
+
+    &:hover {
+      color: $color-edit;
+      background-color: transparent;
+      border: 0.2rem solid $color-edit;
+    }
+  }
+
+  @if $type == delete {
+    border: 0.2rem solid $color-delete;
+    color: $color-white;
+    background-color: $color-delete;
+    transition: all 0.3s;
+
+    &:hover {
+      color: $color-delete;
+      background-color: transparent;
+      border: 0.2rem solid $color-delete;
+    }
+  }
+}
+
+// max-width: px / 16
+@mixin respond($breakpoint) {
+  @if $breakpoint == tab-port {
+    @media (min-width: 28.125em) {
+      @content;
+    } // 450px
+  }
+  @if $breakpoint == tab-land {
+    @media (min-width: 46.875em) {
+      @content;
+    } // 750px
+  }
+  @if $breakpoint == desktop {
+    @media (min-width: 65.625em) {
+      @content;
+    } // 1050px
+  }
+  @if $breakpoint == big-desktop {
+    @media (min-width: 84.375em) {
+      @content;
+    } // 1350px
+  }
+}

@@ -1,0 +1,86 @@
+import { Post } from '@/types'
+import React, { useState, useEffect } from 'react'
+import { SectionMedia } from '@/components'
+import styles from './SectionSlideshow.module.scss'
+
+type Props = {
+  timer?: number
+  posts: Post[]
+  emptyTitle?: string
+  emptyMessage?: string
+  className?: string
+}
+
+const SectionSlideshow: React.FC<Props> = (props) => {
+  const { timer, posts, emptyTitle, emptyMessage, className } = props
+
+  if (posts.length === 0) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.empty}>
+          <h2 className="heading-secondary">{emptyTitle}</h2>
+          <h3 className="heading-tertiary">{emptyMessage}</h3>
+        </div>
+      </section>
+    )
+  }
+
+  const [counter, setCounter] = useState(0)
+  const [ticker, setTicker] = useState<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    const interval = setInterval(incrimentCounter, timer || 5000)
+    setTicker(interval)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  const incrimentCounter = () => {
+    setCounter((prevCounter) =>
+      prevCounter === posts.length - 1 ? 0 : prevCounter + 1
+    )
+  }
+
+  const renderSlides = () => {
+    return posts.map((post, i) => {
+      const slideClassName = counter !== i ? styles.hidden : ''
+
+      return (
+        <SectionMedia
+          key={post.id}
+          post={post}
+          className={`${slideClassName} ${styles.slide}`}
+          alt={post.title}
+        />
+      )
+    })
+  }
+
+  const renderButtons = () => {
+    return posts.map((post, i) => {
+      return (
+        <input
+          onClick={() => {
+            if (ticker) clearInterval(ticker)
+            setCounter(i)
+          }}
+          className={styles.button}
+          type="radio"
+          checked={counter === i ? true : false}
+          onChange={() => {}}
+          key={post.id}
+        />
+      )
+    })
+  }
+
+  return (
+    <section className={`${className || ''} ${styles.section}`}>
+      {renderSlides()}
+      <div className={styles.buttons}>{renderButtons()}</div>
+    </section>
+  )
+}
+
+export default SectionSlideshow

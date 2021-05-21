@@ -1,0 +1,15 @@
+@import 'src/sass/abstracts/_mixins.scss';
+@import 'src/sass/abstracts/_variables.scss';
+
+.main {
+  background-color: $color-grey-light;
+  padding: 5rem 5vw;
+
+  @include respond(tab-land) {
+    padding: 5rem 15vw;
+  }
+}
+
+.title {
+  border-bottom: 0.1rem solid $color-grey;
+}

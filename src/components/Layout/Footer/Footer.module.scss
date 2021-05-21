@@ -1,0 +1,41 @@
+@import 'src/sass/abstracts/_variables.scss';
+
+.footer {
+  background-color: $color-grey-light-2;
+  min-height: 15rem;
+  padding: 2rem;
+  position: relative;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ctaTitle {
+  font-size: 4rem;
+  font-weight: 500;
+}
+
+.credit {
+  margin-top: 4rem;
+}
+
+.creditText {
+  color: $color-grey;
+
+  a {
+    &:link,
+    &:visited {
+      text-decoration: none;
+      color: $color-grey;
+    }
+  }
+}

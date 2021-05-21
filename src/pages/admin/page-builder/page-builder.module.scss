@@ -1,0 +1,138 @@
+@import 'src/sass/abstracts/_mixins.scss';
+@import 'src/sass/abstracts/_variables.scss';
+
+.builder {
+  padding: 5rem 3vw;
+  padding-bottom: 10rem;
+  background-color: $color-grey-light;
+
+  @include respond(tab-port) {
+    padding: 5rem 5vw;
+    padding-bottom: 10rem;
+  }
+
+  @include respond(tab-land) {
+    padding: 5rem 20vw;
+    padding-bottom: 10rem;
+  }
+}
+
+.postForm {
+  padding: 0;
+}
+
+.contentModal {
+  display: flex;
+  justify-content: center;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+  align-items: end;
+
+  @include respond(tab-land) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sectionSelect {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  @include respond(tab-port) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.sectionSelector {
+  margin-bottom: 1rem;
+
+  @include respond(tab-port) {
+    margin: 0;
+  }
+}
+
+.css {
+  width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cssLabel {
+  @include inputLabelStyle();
+}
+
+.cssTextarea {
+  @include inputBorderStyle();
+
+  height: 15rem;
+  resize: vertical;
+  padding: 1rem;
+  font-size: 1.6rem;
+  color: $color-grey-dark;
+}
+
+.sectionBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-top: 0.1rem solid $color-grey;
+  border-bottom: 0.1rem solid $color-grey;
+  padding: 2rem 0;
+  margin: 2rem 0;
+
+  @include respond(tab-land) {
+    flex-direction: row;
+    align-items: unset;
+  }
+}
+
+.section {
+  margin: 3rem 0;
+}
+
+.sectionDescription {
+  margin-bottom: 2rem;
+}
+
+.sectionInputs {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+  align-items: end;
+
+  @include respond(tab-port) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sectionButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sectionMove > * {
+  font-size: 3rem;
+  padding: 0.1rem 1.5rem;
+  margin-right: 1rem;
+}
+
+.validation {
+  text-align: center;
+  color: red;
+  font-style: italic;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.previewTitle {
+  background-color: $color-grey-light;
+  text-align: center;
+  border-bottom: 0.1rem solid $color-grey;
+}
