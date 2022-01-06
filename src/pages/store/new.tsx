@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
 import Error from 'next/error'
-import { userContext } from '@/context'
+import { useUser } from '@/context'
 import { PostsForm, Input } from '@/components'
 
-type Props = {
+interface Props {
   values: any
   errors: any
   validateField: Function
@@ -44,7 +43,7 @@ const ProductFields = ({
 )
 
 const StoreNew = () => {
-  const { currentUser } = useContext(userContext)
+  const { currentUser } = useUser()
   if (!currentUser?.isAdmin) return <Error statusCode={403} />
 
   return (

@@ -1,25 +1,21 @@
 import { Page, Section, PostType } from '@/types'
-import React, { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Router from 'next/router'
 import Error from 'next/error'
-import {
-  userContext,
-  sectionOptionsContext,
-  settingsContext,
-} from '@/context'
+import { useUser, useSectionOptions, useSettings } from '@/context'
 import keys from '@/keys'
 import { Input, Button, Modal, PostsForm } from '@/components'
 import PageRenderer from '../../[page]'
 import styles from './page-builder.module.scss'
 
-type Props = {
+interface Props {
   page: Page
 }
 
 const PageBuilder = (props: Props) => {
-  const { sectionOptions } = useContext(sectionOptionsContext)
-  const { settings } = useContext(settingsContext)
+  const { sectionOptions } = useSectionOptions()
+  const { settings } = useSettings()
   const [postTypes, setPostTypes] = useState<PostType[]>([])
   useEffect(() => {
     const types: PostType[] = ['post']
@@ -469,7 +465,7 @@ const PageBuilder = (props: Props) => {
     page,
     css,
   } = state
-  const { currentUser } = useContext(userContext)
+  const { currentUser } = useUser()
 
   if (!currentUser?.isAdmin) return <Error statusCode={403} />
 

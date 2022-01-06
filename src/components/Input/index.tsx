@@ -1,8 +1,8 @@
-import React, { MutableRefObject } from 'react'
+import { MutableRefObject, FC } from 'react'
 import Tooltip from '../Tooltip'
 import styles from './Input.module.scss'
 
-type Props = {
+interface Props {
   className?: string
   type?: string
   placeholder?: string
@@ -14,14 +14,13 @@ type Props = {
   onChange?: Function
   onFocus?: Function
   onBlur?: Function
-  children?: any
   validation?: string
   tooltip?: string
   refProp?: MutableRefObject<any>
-  formState?: { [key: string]: any }
+  formState?: Record<string, any>
 }
 
-const Input = (props: Props) => {
+const Input: FC<Props> = (props) => {
   // Instantiate props with defaults
   let {
     className = '',
@@ -59,7 +58,7 @@ const Input = (props: Props) => {
             {label}
             {required && ' *'}
           </label>{' '}
-          {tooltip && <Tooltip text={tooltip} />}
+          {tooltip && <Tooltip>{tooltip}</Tooltip>}
         </div>
       )
     }

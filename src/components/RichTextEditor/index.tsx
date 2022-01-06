@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import TinyMCE from 'react-tinymce'
 import styles from 'RichTextEditor.module.scss'
 import Input from '../Input'
 
-type Props = {
+interface Props {
   name: string
   content: string
   className?: string

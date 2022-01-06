@@ -1,24 +1,24 @@
-import { Page, Post } from '@/types'
-import React, { useContext } from 'react'
+import { Page, Post, Tags } from '@/types'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import {
-  postsContext,
-  pagesContext,
-  sectionOptionsContext,
-  blogsContext,
-  storeContext,
-  eventsContext,
+  usePosts,
+  usePages,
+  useSectionOptions,
+  useBlogs,
+  useStore,
+  useEvents,
 } from '@/context'
 import { PageHead } from '@/components'
 import { usePostFilter } from '@/hooks'
 import keys from '@/keys'
 import styles from './page.module.scss'
-import * as Components from '@/components'
+import { SectionRenderer } from '@/components'
 
-type Props = {
+interface Props {
   previewPage?: Page
+  mockPosts?: Post[]
   page?: Page
 }
 
@@ -29,7 +29,7 @@ const PageRenderer = (props: Props) => {
   // On a client load, we are not fetching the page from the server,
   // So we'll get it from the pages in our pages context
   const { query } = useRouter()
-  const { pages } = useContext(pagesContext)
+  const { pages } = usePages()
   if (!page) {
     pages.forEach((foundPage) => {
       if (foundPage.route === '') foundPage.route = 'home'
@@ -73,10 +73,10 @@ const PageRenderer = (props: Props) => {
   })
 
   // Get posts and filter those by the settings
-  const { posts } = useContext(postsContext)
-  const { blogs } = useContext(blogsContext)
-  const { events } = useContext(eventsContext)
-  const { products } = useContext(storeContext)
+  const { posts } = usePosts()
+  const { blogs } = useBlogs()
+  const { events } = useEvents()
+  const { products } = useStore()
 
   const filteredPosts = usePostFilter(posts, postSettings)
   const filteredBlogs = usePostFilter(blogs, blogSettings)
@@ -84,7 +84,7 @@ const PageRenderer = (props: Props) => {
   const filteredProducts = usePostFilter(products, productSettings)
 
   // Get our section options
-  const { sectionOptions } = useContext(sectionOptionsContext)
+  const { sectionOptions } = useSectionOptions()
 
   const renderSections = (page: Page) => {
     return page.sections.map((section, i) => {
@@ -110,6 +110,9 @@ const PageRenderer = (props: Props) => {
           filtered = filteredProducts[key]
           break
       }
+      if (props.mockPosts) {
+        filtered = props.mockPosts
+      }
       const tags = Array.isArray(section.tags)
         ? section.tags.join(', ')
         : section.tags
@@ -118,22 +121,17 @@ const PageRenderer = (props: Props) => {
       // Get the section component
       const options = sectionOptions[section.type]
 
-      // @ts-ignore Not sure how to fix this
-      let Component: React.FC = Components[options.component]
-
       // Return the section component
       return (
-        <Component
+        <SectionRenderer
           key={key}
-          title={section.title}
-          className={section.className || ''}
-          post={filtered[0]}
-          posts={filtered}
-          emptyTitle={section.title || ''}
-          emptyMessage={emptyMessage || ''}
-          alt={section.title || ''}
           path={path}
-          {...options.defaultProps}
+          posts={filtered}
+          title={section.title}
+          className={section.className}
+          emptyMessage={emptyMessage}
+          component={options.component}
+          defaultProps={options.defaultProps}
         />
       )
     })
@@ -150,7 +148,7 @@ const PageRenderer = (props: Props) => {
     let title
     const headerSettings = {
       maxPosts: 1,
-      postTags: ['section-header'],
+      postTags: [Tags.sectionHeader],
     }
     const {
       posts: [headerPost],

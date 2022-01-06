@@ -6,34 +6,36 @@ import {
   Product,
   SectionOptions,
   Keys,
+  AppSettings,
 } from '@/types'
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { NextComponentType, NextPageContext } from 'next'
 import axios from 'axios'
-import '@fortawesome/fontawesome-free/js/all.min'
-import '@fortawesome/fontawesome-free/css/all.min.css'
 import { Layout } from '@/components'
 import keys from '@/keys'
 import { GlobalState } from '@/context'
-import { initGA, logPageView } from '@/utilities/analytics'
-import '../sass/main.scss'
+import { useGa, useNextAnchors } from '@/hooks'
 import 'swagger-ui-react/swagger-ui.css'
+import '@fortawesome/fontawesome-free/js/all.min'
+import '@fortawesome/fontawesome-free/css/all.min.css'
+import '../sass/main.scss'
 
-type Props = {
-  Component: any
+interface Props {
+  Component: NextComponentType
   pages: Page[]
   posts: Post[]
   blogs: Blog[]
   events: Event[]
   products: Product[]
   keys: Keys
-  settings: any
+  settings: AppSettings
   sectionOptions: SectionOptions
 }
 
 const PapyrCms = (props: Props) => {
-  const { asPath } = useRouter()
-  let {
+  useNextAnchors()
+  useGa()
+
+  const {
     Component,
     pages = [],
     posts = [],
@@ -45,18 +47,6 @@ const PapyrCms = (props: Props) => {
     sectionOptions,
     ...pageProps
   } = props
-  const [gaInitialized, setGaInitialized] = useState(false)
-
-  useEffect(() => {
-    if (!gaInitialized) {
-      setGaInitialized(true)
-      initGA(keys.googleAnalyticsId)
-    }
-    if (gaInitialized) {
-      logPageView()
-    }
-    FontAwesome.config.autoAddCss = false
-  }, [asPath])
 
   return (
     <GlobalState
@@ -80,11 +70,11 @@ PapyrCms.getInitialProps = async ({
   Component,
   ctx,
 }: {
-  Component: any
-  ctx: any
+  Component: NextComponentType
+  ctx: NextPageContext
 }) => {
-  let pageProps: any = {}
-  const rootUrl = keys.rootURL ? keys.rootURL : ''
+  let pageProps: Record<string, any> = {}
+  const rootUrl = keys.rootURL ?? ''
 
   // Run getInitialProps for each component
   if (Component.getInitialProps) {

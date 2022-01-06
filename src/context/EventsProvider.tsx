@@ -1,8 +1,8 @@
 import { Event } from '@/types'
-import React, { useState } from 'react'
-import eventsContext from './eventsContext'
+import { useState } from 'react'
+import { eventsContext } from './eventsContext'
 
-type Props = {
+interface Props {
   events: Event[]
   children: any
 }

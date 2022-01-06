@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react'
+import { useState } from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
 import axios from 'axios'
-import { userContext } from '@/context'
-import { Input, Button, UserInfoForm } from '@/components'
+import { useUser } from '@/context'
+import { Input, Button, UserInfoForm, Tooltip } from '@/components'
 import { useForm } from '@/hooks'
 import styles from './profile.module.scss'
 
@@ -15,7 +15,7 @@ const ProfilePage = () => {
     confirmPass: '',
     validation: '',
   })
-  const { currentUser, setCurrentUser } = useContext(userContext)
+  const { currentUser, setCurrentUser } = useUser()
 
   if (!currentUser) {
     return (
@@ -72,7 +72,7 @@ const ProfilePage = () => {
         isSubscribed: !currentUser.isSubscribed,
       })
       setCurrentUser(response.data)
-    } catch (err) {
+    } catch (err: any) {
       console.error(err)
     }
 
@@ -96,7 +96,15 @@ const ProfilePage = () => {
         </div>
 
         <div className={styles.unsubscribe}>
-          You are {currentUser.isSubscribed ? '' : 'not '}subscribed.
+          <span>
+            You are {currentUser.isSubscribed ? '' : 'not '}
+            subscribed.{' '}
+            <Tooltip>
+              You are {currentUser.isSubscribed ? '' : 'not '}{' '}
+              currently receiving email updates from us. You can click
+              this button to change this.
+            </Tooltip>
+          </span>
           <Button onClick={onSubscribeClick}>
             {currentUser.isSubscribed ? 'Unsubscribe' : 'Subscribe'}
           </Button>

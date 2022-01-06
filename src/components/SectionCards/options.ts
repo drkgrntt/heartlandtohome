@@ -9,7 +9,7 @@ export const options: SectionOptions = {
     inputs: ['className', 'maxPosts', 'tags', 'title'],
     // maxPosts: null,
     defaultProps: {
-      contentLength: 180,
+      contentLength: 120,
       readMore: true,
       perRow: 3,
     },

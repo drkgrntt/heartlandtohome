@@ -1,8 +1,8 @@
 import { SectionOptions } from '@/types'
-import React, { useState } from 'react'
-import sectionOptionsContext from './sectionOptionsContext'
+import { useState } from 'react'
+import { sectionOptionsContext } from './sectionOptionsContext'
 
-type Props = {
+interface Props {
   sectionOptions: SectionOptions
   children: any
 }

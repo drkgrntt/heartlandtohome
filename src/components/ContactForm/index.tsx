@@ -1,11 +1,10 @@
-import React, { useContext } from 'react'
-import { userContext } from '@/context'
+import { useUser } from '@/context'
 import { Input, Button } from '@/components'
 import { useForm } from '@/hooks'
 import styles from './ContactForm.module.scss'
 import { Post } from '@/types'
 
-type Props = {
+interface Props {
   className?: string
   post?: Post
 }
@@ -15,7 +14,7 @@ type Props = {
  */
 const ContactForm: React.FC<Props> = (props) => {
   const { className, post } = props
-  const { currentUser } = useContext(userContext)
+  const { currentUser } = useUser()
 
   let name = ''
   let email = ''
@@ -38,18 +37,13 @@ const ContactForm: React.FC<Props> = (props) => {
     message = post.content.replace('<p>', '').replace('</p>', '')
   }
 
-  const {
-    values,
-    handleChange,
-    errors,
-    validateField,
-    submitForm,
-  } = useForm({
-    name,
-    email,
-    message,
-    validation: '',
-  })
+  const { values, handleChange, errors, validateField, submitForm } =
+    useForm({
+      name,
+      email,
+      message,
+      validation: '',
+    })
 
   const handleSubmit = (event: any, resetButton: Function) => {
     event.preventDefault()

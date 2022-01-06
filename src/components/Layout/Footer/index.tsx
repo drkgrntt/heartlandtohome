@@ -1,18 +1,20 @@
-import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
-import { Page } from '@/types'
-import { pagesContext } from '@/context'
+import { Page, Post, Tags } from '@/types'
+import { usePages, useSectionOptions } from '@/context'
 import styles from './Footer.module.scss'
+import { SectionRenderer } from '@/components'
 
-type Props = {
+interface Props {
   footerTitle: string
   footerContent: string
   footerCopyrightContent: string
+  customFooter?: Post
 }
 
 const Footer: React.FC<Props> = (props) => {
-  const { pages } = useContext(pagesContext)
+  const { pages } = usePages()
   const { query } = useRouter()
+  const { sectionOptions } = useSectionOptions()
 
   const page = pages.find((foundPage) => {
     if (foundPage.route === '') foundPage.route = 'home'
@@ -21,6 +23,26 @@ const Footer: React.FC<Props> = (props) => {
 
   if (page?.omitDefaultFooter) {
     return null
+  }
+
+  if (props.customFooter) {
+    const type =
+      Object.keys(sectionOptions).find((key) =>
+        props.customFooter?.tags.includes(
+          Tags.sectionType(key.toLowerCase())
+        )
+      ) ?? 'Standard'
+    const option = sectionOptions[type]
+
+    return (
+      <footer>
+        <SectionRenderer
+          component={option.component}
+          posts={[props.customFooter]}
+          defaultProps={option.defaultProps}
+        />
+      </footer>
+    )
   }
 
   return (

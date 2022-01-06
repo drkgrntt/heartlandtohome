@@ -1,15 +1,15 @@
-import { Event } from '@/types'
-import React, { useEffect, useContext } from 'react'
+import { Event, Tags } from '@/types'
+import { useEffect } from 'react'
 import axios from 'axios'
 import moment from 'moment'
-import { postsContext, eventsContext } from '@/context'
+import { usePosts, useEvents } from '@/context'
 import { SectionStrip } from '@/components'
 import { PageHead } from '@/components'
 import { usePostFilter } from '@/hooks'
 import styles from './events.module.scss'
 
 const EventsPage = () => {
-  const { events, setEvents } = useContext(eventsContext)
+  const { events, setEvents } = useEvents()
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -27,12 +27,12 @@ const EventsPage = () => {
     <p>{moment(event.date).format('MMMM Do, YYYY')}</p>
   )
 
-  const { posts } = useContext(postsContext)
+  const { posts } = usePosts()
 
   let headTitle = 'Events'
   const headerSettings = {
     maxPosts: 1,
-    postTags: ['section-header'],
+    postTags: [Tags.sectionHeader],
   }
   const {
     posts: [headerPost],

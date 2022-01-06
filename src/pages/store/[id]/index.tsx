@@ -1,15 +1,15 @@
 import { Product } from '@/types'
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { userContext, storeContext } from '@/context'
+import { useUser, useStore } from '@/context'
 import keys from '@/keys'
 import { SectionStandard } from '@/components'
 
 const StoreShow = (props: { product: Product }) => {
-  const { currentUser } = useContext(userContext)
-  const { cart, addToCart } = useContext(storeContext)
+  const { currentUser } = useUser()
+  const { cart, addToCart } = useStore()
   const [product, setProduct] = useState(props.product)
   const { query } = useRouter()
 
@@ -91,7 +91,7 @@ StoreShow.getInitialProps = async ({
       `${rootUrl}/api/store/products/${query.id}`
     )
     return { product }
-  } catch (err) {
+  } catch (err: any) {
     return {}
   }
 }

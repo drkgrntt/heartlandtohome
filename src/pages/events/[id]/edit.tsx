@@ -1,14 +1,14 @@
 import { Event } from '@/types'
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Error from 'next/error'
 import axios from 'axios'
 import moment from 'moment'
-import { userContext } from '@/context'
+import { useUser } from '@/context'
 import { PostsForm, Input } from '@/components'
 import keys from '@/keys'
 
-type Props = {
+interface Props {
   values: any
   errors: any
   validateField: Function
@@ -64,7 +64,7 @@ const coordinatesField = ({
 )
 
 const EventsEdit = (props: { event: Event }) => {
-  const { currentUser } = useContext(userContext)
+  const { currentUser } = useUser()
   const [event, setEvent] = useState(props.event || {})
   const { query } = useRouter()
 
@@ -111,7 +111,7 @@ EventsEdit.getInitialProps = async ({
     )
 
     return { event }
-  } catch (err) {
+  } catch (err: any) {
     return {}
   }
 }

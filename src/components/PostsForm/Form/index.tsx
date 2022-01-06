@@ -1,23 +1,24 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import RichTextEditor from '../../RichTextEditor'
 import Media from '../../Media'
 import Input from '../../Input'
 import Button from '../../Button'
 import styles from './Form.module.scss'
+import { Tags } from '@/types'
 
 type FieldProps = {
-  values: { [key: string]: any }
+  values: Record<string, any>
   handleChange: Function
-  errors: { [key: string]: any }
+  errors: Record<string, any>
   validateField: Function
 }
 
-type Props = {
+interface Props {
   additionalFields?: React.FC<FieldProps>[]
-  values: { [key: string]: any }
+  values: Record<string, any>
   handleChange: Function
-  errors: { [key: string]: any }
+  errors: Record<string, any>
   validateField: Function
   handleSubmit: Function
 }
@@ -160,21 +161,22 @@ const Form: React.FC<Props> = (props) => {
   }
 
   const tagsTooltip = `Useful Tags:
-  * section-header
-  * section-footer
-  * copyright
-  * favicon
-  * site-description
-  * notification
-  * persist
-  * latitude
-  * longitude
-  * email-template
-  * welcome
-  * forgot-password
-  * bulk-email
-  * order-{number}
-  * external-link`
+  * ${Tags.sectionHeader}
+  * ${Tags.sectionFooter}
+  * ${Tags.copyright}
+  * ${Tags.favicon}
+  * ${Tags.siteDescription}
+  * ${Tags.notification}
+  * ${Tags.persist}
+  * ${Tags.latitide}
+  * ${Tags.longitude}
+  * ${Tags.emailTemplate}
+  * ${Tags.welcome}
+  * ${Tags.forgotPassword}
+  * ${Tags.bulkEmail}
+  * ${Tags.orderNumber()}
+  * ${Tags.externalLink}
+  * ${Tags.customHeader}`
 
   return (
     <form encType="multipart/form-data" className={styles.form}>

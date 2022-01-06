@@ -1,14 +1,14 @@
 import { Post } from '@/types'
-import React, { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Error from 'next/error'
 import axios from 'axios'
-import { userContext } from '@/context'
+import { useUser } from '@/context'
 import { PostsForm } from '@/components'
 import keys from '@/keys'
 
 const PostsEdit = (props: { post: Post }) => {
-  const { currentUser } = useContext(userContext)
+  const { currentUser } = useUser()
   const { query } = useRouter()
   const [post, setPost] = useState(props.post)
   useEffect(() => {
@@ -47,7 +47,7 @@ PostsEdit.getInitialProps = async ({
     )
 
     return { post }
-  } catch (err) {
+  } catch (err: any) {
     return {}
   }
 }

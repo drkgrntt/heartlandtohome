@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 import { Option } from './Option'
-import * as types from '@/types'
+import * as types from '../../../../types'
 import { PapyrEntity } from './PapyrEntity'
 import { DbAwarePGC, sanitizeConditions } from '../utilities'
 
@@ -59,7 +59,7 @@ export class Settings extends PapyrEntity {
     const settingsRepo = getRepository<Settings>('Settings')
     const optionsRepo = getRepository<Option>('Option')
     let foundSettings
-    debugger
+
     if (settings.id) {
       foundSettings = await settingsRepo.findOne({
         where: sanitizeConditions({

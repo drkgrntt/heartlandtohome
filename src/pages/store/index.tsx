@@ -1,18 +1,16 @@
-import { Product } from '@/types'
-import React, { useContext, useEffect } from 'react'
+import { Product, Tags } from '@/types'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
-import { userContext, storeContext, postsContext } from '@/context'
+import { useUser, useStore, usePosts } from '@/context'
 import { usePostFilter, useSearchBar } from '@/hooks'
 import { PageHead } from '@/components'
 import { SectionCards } from '@/components'
 import styles from './store.module.scss'
 
 const StorePage = () => {
-  const { cart, addToCart, products, setProducts } = useContext(
-    storeContext
-  )
-  const { currentUser } = useContext(userContext)
+  const { cart, addToCart, products, setProducts } = useStore()
+  const { currentUser } = useUser()
 
   useEffect(() => {
     if (currentUser?.isAdmin) {
@@ -80,12 +78,12 @@ const StorePage = () => {
     }
   }
 
-  const { posts } = useContext(postsContext)
+  const { posts } = usePosts()
 
   let headTitle = 'Store'
   const headerSettings = {
     maxPosts: 1,
-    postTags: ['section-header'],
+    postTags: [Tags.sectionHeader],
   }
   const {
     posts: [headerPost],

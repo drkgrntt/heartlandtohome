@@ -1,12 +1,13 @@
-import { Post } from '@/types'
-import React, { useContext } from 'react'
+import { Page, Post } from '@/types'
 import Router from 'next/router'
 import Form from './Form'
-import { postsContext } from '@/context'
+import { usePosts, useSectionOptions } from '@/context'
 import { useForm } from '@/hooks'
 import styles from './PostsForm.module.scss'
+import { useState } from 'react'
+import { SectionRenderer } from '..'
 
-type Props = {
+interface Props {
   post?: Post
   pageTitle: string
   className?: string
@@ -15,44 +16,53 @@ type Props = {
   redirectRoute?: string
   editing?: boolean
   additionalFields?: React.FC<any>[]
-  additionalState?: { [key: string]: any }
+  additionalState?: Record<string, any>
+}
+
+const MOCK_PAGE: Page = {
+  sections: [
+    {
+      type: 'Standard',
+      postType: 'post',
+      tags: [],
+      title: 'Preview',
+      maxPosts: 1,
+      className: '',
+      order: 1,
+      pageId: 'fakepageid',
+      id: 'fakeid',
+    },
+  ],
+  className: '',
+  route: '',
+  css: '',
+  omitDefaultFooter: false,
+  omitDefaultHeader: false,
+  id: 'fakeid',
+  updatedAt: new Date(),
+  createdAt: new Date(),
+  title: '',
+  navOrder: 0,
 }
 
 const PostsForm: React.FC<Props> = (props) => {
-  const { posts, setPosts } = useContext(postsContext)
-
-  const mapTagsToString = (tags: string[]) => {
-    let newTags = ''
-
-    tags.forEach((tag, i) => {
-      if (i < tags.length - 1) {
-        newTags = `${newTags}${tag}, `
-      } else {
-        newTags = `${newTags}${tag}`
-      }
-    })
-
-    return newTags
-  }
+  const { posts, setPosts } = usePosts()
+  const { sectionOptions } = useSectionOptions()
 
   const { post, additionalState } = props
 
   const INITIAL_STATE = {
     ...additionalState,
     title: post ? post.title : '',
-    tags: post ? mapTagsToString(post.tags) : '',
+    tags: post ? post.tags.join(', ') : '',
     media: post ? post.media : '',
     content: post ? post.content : '',
     isPublished: post ? post.isPublished : false,
     validation: '',
   }
-  const {
-    values,
-    handleChange,
-    errors,
-    validateField,
-    submitForm,
-  } = useForm(INITIAL_STATE)
+  const { values, handleChange, errors, validateField, submitForm } =
+    useForm(INITIAL_STATE)
+  const [previewSection, setPreviewSection] = useState('Standard')
 
   const handleSubmit = async (event: any, resetButton: Function) => {
     event.preventDefault()
@@ -91,11 +101,10 @@ const PostsForm: React.FC<Props> = (props) => {
 
   const { pageTitle, additionalFields, className } = props
 
-  const additionalProps = {}
+  const additionalProps: any = {}
 
   if (additionalState) {
     Object.keys(additionalState).forEach((key) => {
-      // @ts-ignore not sure how to handle this
       additionalProps[key] = values[key]
     })
   }
@@ -112,6 +121,33 @@ const PostsForm: React.FC<Props> = (props) => {
         errors={errors}
         handleSubmit={handleSubmit}
         additionalFields={additionalFields}
+      />
+      <br />
+      <hr />
+      <br />
+      <select
+        value={previewSection}
+        onChange={(event) => setPreviewSection(event.target.value)}
+      >
+        {Object.keys(sectionOptions).map((key) => {
+          return (
+            <option key={key} value={key}>
+              {key}
+            </option>
+          )
+        })}
+      </select>
+      <SectionRenderer
+        posts={[
+          {
+            ...values,
+            id: 'test',
+            tags: values.tags.split(',').map((s: string) => s.trim()),
+          } as Post,
+        ]}
+        title="Preview"
+        component={sectionOptions[previewSection].component}
+        defaultProps={sectionOptions[previewSection].defaultProps}
       />
     </div>
   )

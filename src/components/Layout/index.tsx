@@ -1,25 +1,26 @@
-import React, { useContext } from 'react'
 import sanitizeHTML from 'sanitize-html'
-import { postsContext, keysContext } from '@/context'
+import { usePosts, useKeys, useSectionOptions } from '@/context'
 import { usePostFilter } from '@/hooks'
 import Notification from './Notification'
 import Header from './Header'
 import Footer from './Footer'
 import NavMenu from './NavMenu'
 import PageHead from '../PageHead'
+import { Post, Tags } from '@/types'
 
 const Layout: React.FC = (props) => {
-  const { keys } = useContext(keysContext)
-  const { posts } = useContext(postsContext)
+  const { keys } = useKeys()
+  const { posts } = usePosts()
 
   const settings = {
-    maxPosts: 5,
     postTags: [
-      'section-header',
-      'section-footer',
-      'site-description',
-      'copyright',
-      'favicon',
+      Tags.customHeader,
+      Tags.sectionHeader,
+      Tags.customFooter,
+      Tags.sectionFooter,
+      Tags.siteDescription,
+      Tags.copyright,
+      Tags.favicon,
     ],
   }
   const filtered = usePostFilter(posts, settings)
@@ -34,10 +35,16 @@ const Layout: React.FC = (props) => {
     favicon = '',
     descriptionContent = '',
     keywords = '',
-    shareImage = ''
+    shareImage = '',
+    customHeader: Post | undefined,
+    customFooter: Post | undefined
 
   filtered.posts.forEach((post) => {
-    if (post.tags && post.tags.includes('section-header')) {
+    if (post.tags.includes(Tags.customHeader)) {
+      customHeader = post
+    } else if (post.tags.includes(Tags.customFooter)) {
+      customFooter = post
+    } else if (post.tags.includes(Tags.sectionHeader)) {
       headerTitle = post.title || ''
       headerSubTitle = post.content || ''
       if (!logo) {
@@ -56,17 +63,17 @@ const Layout: React.FC = (props) => {
       if (!shareImage) {
         shareImage = post.media || ''
       }
-    } else if (post.tags.includes('section-footer')) {
+    } else if (post.tags.includes(Tags.sectionFooter)) {
       footerTitle = post.title
       footerContent = post.content || ''
-    } else if (post.tags.includes('copyright')) {
+    } else if (post.tags.includes(Tags.copyright)) {
       footerCopyrightContent = post.content || ''
-    } else if (post.tags.includes('site-description')) {
+    } else if (post.tags.includes(Tags.siteDescription)) {
       descriptionContent = sanitizeHTML(post.content || '', {
         allowedTags: [],
       })
       post.tags.forEach((tag) => {
-        if (tag !== 'site-description') {
+        if (tag !== Tags.siteDescription) {
           keywords =
             keywords.length === 0 ? tag : `${keywords}, ${tag}`
         }
@@ -74,13 +81,13 @@ const Layout: React.FC = (props) => {
       if (post.media) {
         shareImage = post.media
       }
-    } else if (post.tags.includes('favicon')) {
+    } else if (post.tags.includes(Tags.favicon)) {
       favicon = post.media
     }
   })
 
   const notifications = usePostFilter(posts, {
-    postTags: ['notification'],
+    postTags: [Tags.notification],
   })
 
   const renderNotifications = () => {
@@ -90,7 +97,7 @@ const Layout: React.FC = (props) => {
   }
 
   return (
-    <div className="papyr-app">
+    <div className="papyr-cms">
       <PageHead
         title={headerTitle}
         titleContent={titleHeaderContent}
@@ -133,7 +140,11 @@ const Layout: React.FC = (props) => {
 
       <NavMenu logo={logo} />
 
-      <Header mainTitle={headerTitle} subTitle={headerSubTitle} />
+      <Header
+        mainTitle={headerTitle}
+        subTitle={headerSubTitle}
+        customHeader={customHeader}
+      />
 
       <main>{props.children}</main>
 
@@ -141,6 +152,7 @@ const Layout: React.FC = (props) => {
         footerTitle={footerTitle}
         footerContent={footerContent}
         footerCopyrightContent={footerCopyrightContent}
+        customFooter={customFooter}
       />
     </div>
   )

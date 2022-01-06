@@ -1,14 +1,13 @@
-import React, { useContext } from 'react'
 import Router from 'next/router'
-import { settingsContext, userContext } from '@/context'
+import { useSettings, useUser } from '@/context'
 import { useForm } from '@/hooks'
 import Input from '../Input'
 import Button from '../Button'
 import styles from './RegisterForm.module.scss'
 
 const RegisterForm = () => {
-  const { settings } = useContext(settingsContext)
-  const { setCurrentUser } = useContext(userContext)
+  const { settings } = useSettings()
+  const { setCurrentUser } = useUser()
 
   const INITIAL_STATE = {
     firstName: '',

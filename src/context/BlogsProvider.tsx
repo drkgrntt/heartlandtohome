@@ -1,8 +1,8 @@
 import { Blog } from '@/types'
-import React, { useState } from 'react'
-import blogsContext from './blogsContext'
+import { useState } from 'react'
+import { blogsContext } from './blogsContext'
 
-type Props = {
+interface Props {
   blogs: Blog[]
   children: any
 }

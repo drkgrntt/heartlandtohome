@@ -1,12 +1,12 @@
-import React, { useState, useContext } from 'react'
+import { useState } from 'react'
 import { Post, Comment } from '@/types'
 import axios from 'axios'
 import Link from 'next/link'
-import { settingsContext, userContext } from '@/context'
+import { useSettings, useUser } from '@/context'
 import CommentForm from '../CommentForm'
 import styles from './Comments.module.scss'
 
-type Props = {
+interface Props {
   comments: Comment[]
   enableCommenting?: boolean
   post: Post
@@ -24,8 +24,8 @@ const Comments: React.FC<Props> = (props) => {
     afterCommentForm = () => null,
   } = props
 
-  const { settings } = useContext(settingsContext)
-  const { currentUser } = useContext(userContext)
+  const { settings } = useSettings()
+  const { currentUser } = useUser()
 
   const [formContent, setFormContent] = useState('')
   const [comments, setComments] = useState(props.comments)

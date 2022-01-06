@@ -1,8 +1,8 @@
 import { Keys } from '@/types'
-import React, { useState } from 'react'
-import keysContext from './keysContext'
+import { useState } from 'react'
+import { keysContext } from './keysContext'
 
-type Props = {
+interface Props {
   keys: Keys
   children: any
 }

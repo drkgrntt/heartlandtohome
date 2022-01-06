@@ -8,7 +8,7 @@ const getProduct = async (id: string, database: Database) => {
 
   try {
     product = await findOne<Product>(EntityType.Product, { id })
-  } catch (err) {}
+  } catch (err: any) {}
 
   if (!product) {
     product = await findOne<Product>(EntityType.Product, { slug: id })
@@ -34,7 +34,10 @@ const updateProduct = async (
   if (!product) throw new Error('Product not found')
 
   body.slug = body.title.replace(/\s+/g, '-').toLowerCase()
-  body.tags = body.tags.split(',').map((tag: string) => tag.trim())
+  body.tags = body.tags
+    .split(',')
+    .map((tag: string) => tag.trim())
+    .filter((tag: string) => !!tag)
   const newProduct = { ...product, ...body }
 
   return await save(EntityType.Product, newProduct)

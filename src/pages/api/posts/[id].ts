@@ -1,4 +1,4 @@
-import { Database, Post } from '@/types'
+import { Database, Post, Tags } from '@/types'
 import { NextApiRequest, NextApiResponse } from 'next'
 import serverContext from '@/serverContext'
 import Mailer from '@/utilities/mailer'
@@ -9,7 +9,7 @@ const getPost = async (id: string, database: Database) => {
 
   try {
     post = await findOne<Post>(EntityType.Post, { id })
-  } catch (err) {}
+  } catch (err: any) {}
 
   if (!post) {
     post = await findOne<Post>(EntityType.Post, { slug: id })
@@ -30,18 +30,10 @@ const updatePost = async (
   enableEmailingToUsers: boolean,
   database: Database
 ) => {
-  if (body.tags) {
-    const newTags: string[] = body.tags
-      .split(',')
-      .map((tag: string) => {
-        let pendingTag = tag
-        pendingTag = pendingTag.trim()
-
-        if (!!pendingTag) return pendingTag
-      })
-      .filter((tag: string) => !!tag)
-    body.tags = [...new Set(newTags)]
-  }
+  body.tags = body.tags
+    .split(',')
+    .map((tag: string) => tag.trim())
+    .filter((tag: string) => !!tag)
   body.slug = body.title.replace(/\s+/g, '-').toLowerCase()
 
   const { save, findOne, EntityType } = database
@@ -57,7 +49,7 @@ const updatePost = async (
   if (
     enableEmailingToUsers &&
     updated.tags.includes(mailer.templateTag) &&
-    updated.tags.includes('bulk-email') &&
+    updated.tags.includes(Tags.bulkEmail) &&
     updated.isPublished
   ) {
     await mailer.sendBulkEmail(updated)

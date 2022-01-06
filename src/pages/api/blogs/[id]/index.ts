@@ -9,7 +9,7 @@ const getBlog = async (id: string, database: Database) => {
   // Search for the blog by its id
   try {
     blog = await findOne<Blog>(EntityType.Blog, { id })
-  } catch (err) {}
+  } catch (err: any) {}
 
   // Then search by its slug
   if (!blog) {
@@ -33,7 +33,7 @@ const updateBlog = async (
 ) => {
   const { findOne, save, EntityType } = database
 
-  const oldBlog = await findOne<Blog>(EntityType.Blog, { id: id })
+  const oldBlog = await findOne<Blog>(EntityType.Blog, { id })
   if (!oldBlog) throw new Error('Blog not found')
 
   if (!oldBlog.isPublished && body.isPublished) {
@@ -41,7 +41,10 @@ const updateBlog = async (
   }
 
   body.slug = body.title.replace(/\s+/g, '-').toLowerCase()
-  body.tags = body.tags.split(',').map((tag: string) => tag.trim())
+  body.tags = body.tags
+    .split(',')
+    .map((tag: string) => tag.trim())
+    .filter((tag: string) => !!tag)
 
   return await save<Blog>(EntityType.Blog, { ...oldBlog, ...body })
 }
@@ -49,7 +52,7 @@ const updateBlog = async (
 const deleteBlog = async (id: string, database: Database) => {
   const { findOne, destroy, EntityType } = database
 
-  const blog = await findOne<Blog>(EntityType.Blog, { id: id })
+  const blog = await findOne<Blog>(EntityType.Blog, { id })
   if (!blog) throw new Error('Blog not found')
   await destroy(EntityType.Blog, blog)
 

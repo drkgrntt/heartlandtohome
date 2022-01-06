@@ -1,13 +1,13 @@
-import React, { useEffect, useContext } from 'react'
+import { useEffect } from 'react'
 import axios from 'axios'
-import { postsContext, userContext } from '@/context'
+import { usePosts, useUser } from '@/context'
 import { PostIndex } from '@/components'
 import styles from './posts.module.scss'
 import { useSearchBar } from 'src/hooks'
 
 const Posts = () => {
-  const { currentUser } = useContext(userContext)
-  const { posts, setPosts } = useContext(postsContext)
+  const { currentUser } = useUser()
+  const { posts, setPosts } = usePosts()
   useEffect(() => {
     const resetPosts = async () => {
       if (currentUser?.isAdmin) {

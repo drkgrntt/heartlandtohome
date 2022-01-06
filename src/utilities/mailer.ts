@@ -1,4 +1,4 @@
-import { Database, Post, User } from '@/types'
+import { Database, Post, Tags, User } from '@/types'
 import nodemailer from 'nodemailer'
 import { google } from 'googleapis'
 import fs from 'fs'
@@ -12,7 +12,7 @@ class Mailer {
 
   constructor(database: Database) {
     this.database = database
-    this.templateTag = 'email-template'
+    this.templateTag = Tags.emailTemplate
   }
 
   async getAccessToken() {
@@ -29,7 +29,7 @@ class Mailer {
     try {
       const { token } = await oauth2Client.getAccessToken()
       return token
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('error', err)
       return false
     }
@@ -116,7 +116,7 @@ class Mailer {
   }
 
   async sendEmail(
-    variables: { [key: string]: any },
+    variables: Record<string, any>,
     recipient: string,
     templateName: string,
     subject?: string

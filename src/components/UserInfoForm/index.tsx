@@ -1,16 +1,12 @@
-import React, {
-  MutableRefObject,
-  ReactElement,
-  useContext,
-} from 'react'
+import { MutableRefObject } from 'react'
 import axios from 'axios'
-import { userContext } from '@/context'
+import { useUser } from '@/context'
 import { useForm } from '@/hooks'
 import Input from '../Input'
 import Button from '../Button'
 import styles from './UserInfoForm.module.scss'
 
-type Props = {
+interface Props {
   submitRef?: MutableRefObject<HTMLButtonElement>
   beforeSubmit?: Function
   onSubmitError?: Function
@@ -29,7 +25,7 @@ const UserInfoForm: React.FC<Props> = (props) => {
     submitRef,
   } = props
 
-  const { currentUser, setCurrentUser } = useContext(userContext)
+  const { currentUser, setCurrentUser } = useUser()
 
   const INITIAL_STATE = {
     firstName: '',

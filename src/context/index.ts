@@ -1,23 +1,23 @@
-import blogsContext from './blogsContext'
-import eventsContext from './eventsContext'
-import keysContext from './keysContext'
-import pagesContext from './pagesContext'
-import postsContext from './postsContext'
-import sectionOptionsContext from './sectionOptionsContext'
-import settingsContext from './settingsContext'
-import storeContext from './storeContext'
-import userContext from './userContext'
+import useBlogs from './blogsContext'
+import useEvents from './eventsContext'
+import useKeys from './keysContext'
+import usePages from './pagesContext'
+import usePosts from './postsContext'
+import useSectionOptions from './sectionOptionsContext'
+import useSettings from './settingsContext'
+import useStore from './storeContext'
+import useUser from './userContext'
 import GlobalState from './GlobalState'
 
 export {
-  blogsContext,
-  eventsContext,
-  keysContext,
-  pagesContext,
-  postsContext,
-  sectionOptionsContext,
-  settingsContext,
-  storeContext,
-  userContext,
+  useBlogs,
+  useEvents,
+  useKeys,
+  usePages,
+  usePosts,
+  useSectionOptions,
+  useSettings,
+  useStore,
+  useUser,
   GlobalState,
 }

@@ -1,12 +1,14 @@
-import React, { useState, useContext } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
-import { settingsContext } from '@/context'
+import { Modal } from '@/components'
+import { useSettings } from '@/context'
 import Input from '../../Input'
 import styles from './AppSettingsForm.module.scss'
+import { AppSettings } from '@/types'
 
 const AppSettingsForm: React.FC = () => {
   const [verification, setVerification] = useState('')
-  const { settings, setSettings } = useContext(settingsContext)
+  const { settings, setSettings } = useSettings()
   const [formSettings, setFormSettings] = useState(settings)
 
   const handleSubmit = (event: any) => {
@@ -32,7 +34,7 @@ const AppSettingsForm: React.FC = () => {
   }
 
   const renderSettingsInput = (
-    newSetting: any,
+    newSetting: number | boolean,
     key: string,
     label: string
   ) => {
@@ -85,8 +87,7 @@ const AppSettingsForm: React.FC = () => {
       const result = key.replace(/([A-Z])/g, ' $1')
       const label = result.charAt(0).toUpperCase() + result.slice(1)
 
-      //@ts-ignore not sure how to handle this
-      const newSetting = formSettings[key]
+      const newSetting = formSettings[key as keyof AppSettings]
 
       return (
         <div className={styles.field} key={key}>
@@ -97,17 +98,19 @@ const AppSettingsForm: React.FC = () => {
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <h3 className="heading-tertiary">App Settings</h3>
+    <Modal buttonClasses="button-primary" buttonText="App Settings">
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <h3 className="heading-tertiary">App Settings</h3>
 
-      <p className={styles.verification}>{verification}</p>
+        <p className={styles.verification}>{verification}</p>
 
-      {renderSettingsInputs()}
+        {renderSettingsInputs()}
 
-      <div className={styles.submit}>
-        <input type="submit" className="button button-primary" />
-      </div>
-    </form>
+        <div className={styles.submit}>
+          <input type="submit" className="button button-primary" />
+        </div>
+      </form>
+    </Modal>
   )
 }
 

@@ -1,15 +1,15 @@
 import { Event } from '@/types'
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import moment from 'moment'
-import { userContext } from '@/context'
+import { useUser } from '@/context'
 import keys from '@/keys'
 import { Map } from '@/components'
 import { SectionStandard } from '@/components'
 
 const EventsShow = (props: { event: Event }) => {
-  const { currentUser } = useContext(userContext)
+  const { currentUser } = useUser()
   const [event, setEvent] = useState(props.event || {})
   const { query } = useRouter()
 
@@ -62,7 +62,7 @@ EventsShow.getInitialProps = async ({
     )
 
     return { event }
-  } catch (err) {
+  } catch (err: any) {
     return {}
   }
 }

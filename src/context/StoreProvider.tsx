@@ -1,17 +1,17 @@
 import { Product } from '@/types'
-import React, { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
-import StoreContext from './storeContext'
-import UserContext from './userContext'
+import { storeContext } from './storeContext'
+import { useUser } from '@/context'
 
-type Props = {
+interface Props {
   products: Product[]
 }
 
 const StoreProvider: React.FC<Props> = (props) => {
   const [products, setProducts] = useState(props.products)
   const [cart, setCart] = useState<Product[]>([])
-  const { currentUser } = useContext(UserContext)
+  const { currentUser } = useUser()
 
   useEffect(() => {
     if (currentUser?.cart) {
@@ -39,7 +39,7 @@ const StoreProvider: React.FC<Props> = (props) => {
       try {
         await axios.put(`/api/store/cart/${product.id}`)
         setCart(newCart)
-      } catch (err) {
+      } catch (err: any) {
         console.error(err)
       }
     }
@@ -66,7 +66,7 @@ const StoreProvider: React.FC<Props> = (props) => {
       try {
         await axios.delete(`/api/store/cart/${product.id}`)
         setCart(newCart)
-      } catch (err) {
+      } catch (err: any) {
         console.error(err)
       }
     }
@@ -80,7 +80,7 @@ const StoreProvider: React.FC<Props> = (props) => {
   }
 
   return (
-    <StoreContext.Provider
+    <storeContext.Provider
       value={{
         cart,
         addToCart,
@@ -91,7 +91,7 @@ const StoreProvider: React.FC<Props> = (props) => {
       }}
     >
       {props.children}
-    </StoreContext.Provider>
+    </storeContext.Provider>
   )
 }
 

@@ -1,13 +1,13 @@
-import React, { useEffect, useContext } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import Error from 'next/error'
 import axios from 'axios'
-import { userContext, pagesContext } from '@/context'
+import { useUser, usePages } from '@/context'
 import styles from './pages.module.scss'
 
 const Pages = () => {
-  let { pages, setPages } = useContext(pagesContext)
-  const { currentUser } = useContext(userContext)
+  let { pages, setPages } = usePages()
+  const { currentUser } = useUser()
 
   useEffect(() => {
     const getPages = async () => {

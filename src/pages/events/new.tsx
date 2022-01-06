@@ -1,11 +1,10 @@
-import React, { useContext } from 'react'
 import Error from 'next/error'
-import { userContext } from '@/context'
+import { useUser } from '@/context'
 import { PostsForm, Input } from '@/components'
 
-type Props = {
-  values: { [key: string]: any }
-  errors: { [key: string]: any }
+interface Props {
+  values: Record<string, any>
+  errors: Record<string, any>
   validateField: Function
   handleChange: Function
 }
@@ -59,7 +58,7 @@ const coordinatesField: React.FC<Props> = ({
 )
 
 const EventNew = () => {
-  const { currentUser } = useContext(userContext)
+  const { currentUser } = useUser()
   if (!currentUser?.isAdmin) return <Error statusCode={403} />
 
   return (

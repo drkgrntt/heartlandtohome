@@ -1,16 +1,16 @@
-import { Blog } from '@/types'
-import React, { useEffect, useContext } from 'react'
+import { Blog, Tags } from '@/types'
+import { useEffect } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import { PageHead } from '@/components'
-import { userContext, blogsContext, postsContext } from '@/context'
+import { useUser, useBlogs, usePosts } from '@/context'
 import { SectionCards } from '@/components'
 import { usePostFilter, useSearchBar } from '@/hooks'
 import styles from './blog.module.scss'
 
 const BlogAllPage = () => {
-  const { currentUser } = useContext(userContext)
-  const { blogs, setBlogs } = useContext(blogsContext)
+  const { currentUser } = useUser()
+  const { blogs, setBlogs } = useBlogs()
 
   useEffect(() => {
     if (currentUser?.isAdmin) {
@@ -39,12 +39,12 @@ const BlogAllPage = () => {
     return <p>{moment(date).format('MMMM Do, YYYY')}</p>
   }
 
-  const { posts } = useContext(postsContext)
+  const { posts } = usePosts()
 
   let headTitle = 'Blog'
   const headerSettings = {
     maxPosts: 1,
-    postTags: ['section-header'],
+    postTags: [Tags.sectionHeader],
   }
   const {
     posts: [headerPost],

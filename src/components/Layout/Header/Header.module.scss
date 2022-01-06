@@ -4,8 +4,8 @@
 .header {
   background: linear-gradient(
     45deg,
-    lighten($color-secondary, 10%),
-    darken($color-secondary, 10%)
+    lighten($color-primary, 10%),
+    darken($color-primary, 30%)
   );
   height: 40rem;
 }

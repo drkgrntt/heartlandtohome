@@ -1,15 +1,15 @@
-import { Event } from '@/types'
-import React, { useEffect, useContext } from 'react'
+import { Event, Tags } from '@/types'
+import { useEffect } from 'react'
 import axios from 'axios'
 import moment from 'moment'
-import { userContext, eventsContext, postsContext } from '@/context'
+import { useUser, useEvents, usePosts } from '@/context'
 import { PageHead } from '@/components'
 import { SectionCards } from '@/components'
 import { usePostFilter } from '@/hooks'
 
 const EventsAllPage = () => {
-  const { currentUser } = useContext(userContext)
-  const { events, setEvents } = useContext(eventsContext)
+  const { currentUser } = useUser()
+  const { events, setEvents } = useEvents()
 
   useEffect(() => {
     if (currentUser?.isAdmin) {
@@ -33,12 +33,12 @@ const EventsAllPage = () => {
     <p>{moment(post.date).format('MMMM Do, YYYY')}</p>
   )
 
-  const { posts } = useContext(postsContext)
+  const { posts } = usePosts()
 
   let headTitle = 'Events'
   const headerSettings = {
     maxPosts: 1,
-    postTags: ['section-header'],
+    postTags: [Tags.sectionHeader],
   }
   const {
     posts: [headerPost],

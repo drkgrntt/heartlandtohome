@@ -142,6 +142,8 @@ export class Settings extends DbModel {
 
 export class AppSettings {
   enableMenu!: boolean
+  enableNav!: boolean
+  stickyNav!: boolean
   enableStore!: boolean
   storeMenuLocation!: number
   enableBlog!: boolean
@@ -188,5 +190,38 @@ export class Keys {
     newPass?: string
     token?: string
     tokenRpc?: string
+  }
+}
+
+export class Tags {
+  static sectionHeader = 'section-header'
+  static sectionFooter = 'section-footer'
+  static copyright = 'copyright'
+  static favicon = 'favicon'
+  static siteDescription = 'site-description'
+  static notification = 'notification'
+  static persist = 'persist'
+  static latitide = 'latitude'
+  static longitude = 'longitude'
+  static emailTemplate = 'email-template'
+  static welcome = 'welcome'
+  static forgotPassword = 'forgot-password'
+  static bulkEmail = 'bulk-email'
+  static externalLink = 'external-link'
+  static customHeader = 'custom-header'
+  static customFooter = 'custom-footer'
+  static orderNumber(number?: number) {
+    if (!number) {
+      return 'order-{number}'
+    } else {
+      return `order-${number}`
+    }
+  }
+  static sectionType(type?: string) {
+    if (!type) {
+      return 'section-type-{type}'
+    } else {
+      return `section-type-${type}`
+    }
   }
 }

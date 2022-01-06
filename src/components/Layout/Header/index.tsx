@@ -1,26 +1,30 @@
-import { Page } from '@/types'
-import React, { useContext } from 'react'
+import { Page, Post, Tags } from '@/types'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import {
-  settingsContext,
-  storeContext,
-  userContext,
-  pagesContext,
+  useSettings,
+  useStore,
+  useUser,
+  usePages,
+  useSectionOptions,
 } from '@/context'
 import styles from './Header.module.scss'
+import { SectionRenderer } from '@/components'
 
-type Props = {
+interface Props {
   mainTitle: string
   subTitle: string
+  customHeader?: Post
 }
 
 const Header: React.FC<Props> = (props) => {
-  const { mainTitle, subTitle } = props
-  const { currentUser } = useContext(userContext)
-  const { settings } = useContext(settingsContext)
-  const { pages } = useContext(pagesContext)
+  const { mainTitle, subTitle, customHeader } = props
+  const { currentUser } = useUser()
+  const { settings } = useSettings()
+  const { pages } = usePages()
   const { query } = useRouter()
+  const { cart } = useStore()
+  const { sectionOptions } = useSectionOptions()
 
   const page = pages.find((foundPage) => {
     if (foundPage.route === '') foundPage.route = 'home'
@@ -54,7 +58,6 @@ const Header: React.FC<Props> = (props) => {
     )
   }
 
-  const { cart } = useContext(storeContext)
   const renderCart = () => {
     if (settings.enableStore) {
       const menuText = `Cart${
@@ -89,7 +92,7 @@ const Header: React.FC<Props> = (props) => {
     }
   }
 
-  const renderNav = () => {
+  const renderMenu = () => {
     if (settings.enableMenu || currentUser?.isAdmin) {
       return (
         <ul className={styles.menu}>
@@ -117,11 +120,31 @@ const Header: React.FC<Props> = (props) => {
     )
   }
 
+  if (customHeader) {
+    const type =
+      Object.keys(sectionOptions).find((key) =>
+        customHeader.tags.includes(
+          Tags.sectionType(key.toLowerCase())
+        )
+      ) ?? 'Standard'
+    const option = sectionOptions[type]
+
+    return (
+      <header>
+        <SectionRenderer
+          component={option.component}
+          posts={[customHeader]}
+          defaultProps={option.defaultProps}
+        />
+      </header>
+    )
+  }
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         <h1 className="heading-primary">{renderTitle()}</h1>
-        {renderNav()}
+        {renderMenu()}
       </div>
     </header>
   )

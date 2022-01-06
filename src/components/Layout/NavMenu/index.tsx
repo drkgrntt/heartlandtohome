@@ -1,14 +1,9 @@
-import React, { useContext } from 'react'
 import Link from 'next/link'
-import {
-  settingsContext,
-  pagesContext,
-  postsContext,
-} from '@/context'
-import { Page } from '@/types'
+import { useSettings, usePages, usePosts } from '@/context'
+import { Page, Tags } from '@/types'
 import styles from './NavMenu.module.scss'
 import { useRouter } from 'next/router'
-import { usePostFilter } from 'src/hooks'
+import { usePostFilter } from '@/hooks'
 
 const onClick = () => {
   const checkbox = document.getElementById('nav-menu-checkbox')
@@ -79,15 +74,19 @@ const Submenu: React.FC<{ pages: Page[] }> = ({ pages }) => {
 }
 
 const NavMenu: React.FC<{ logo?: string }> = (props) => {
-  const { pages } = useContext(pagesContext)
-  const { posts } = useContext(postsContext)
-  const { settings } = useContext(settingsContext)
+  const { pages } = usePages()
+  const { posts } = usePosts()
+  const { settings } = useSettings()
+
+  if (!settings.enableNav) {
+    return null
+  }
 
   const renderMenuItems = () => {
     let menuPages = [...pages]
 
     const postFilterSettings = {
-      postTags: ['external-link'],
+      postTags: [Tags.externalLink],
     }
     const { posts: externalLinkPosts } = usePostFilter(
       posts,
@@ -212,7 +211,11 @@ const NavMenu: React.FC<{ logo?: string }> = (props) => {
   }
 
   return (
-    <nav>
+    <nav
+      className={`${styles.nav} ${
+        settings.stickyNav ? styles.sticky : ''
+      }`}
+    >
       <ul className={styles.menu}>
         {renderLogo()}
 

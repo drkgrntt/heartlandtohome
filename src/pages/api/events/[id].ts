@@ -9,7 +9,7 @@ const getEvent = async (id: string, database: Database) => {
 
   try {
     event = await findOne<Event>(EntityType.Event, { id })
-  } catch (err) {}
+  } catch (err: any) {}
 
   if (!event) {
     event = await findOne<Event>(EntityType.Event, { slug: id })
@@ -31,7 +31,10 @@ const updateEvent = async (
 ) => {
   body.date = moment(body.date).toISOString()
   body.slug = body.title.replace(/\s+/g, '-').toLowerCase()
-  body.tags = body.tags.split(',').map((tag: string) => tag.trim())
+  body.tags = body.tags
+    .split(',')
+    .map((tag: string) => tag.trim())
+    .filter((tag: string) => !!tag)
 
   const { save, findOne, EntityType } = database
   const event = await findOne<Event>(EntityType.Event, { id })
