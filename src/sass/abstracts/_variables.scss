@@ -1,19 +1,26 @@
 // COLORS
 // ========================
 
+// Brand
+$pink: #f7eeec;
+$yellow: #dba82a;
+$red: #b54239;
+$green: #213f23;
+$black: #0c130e;
+
 // neutrals
-$color-white: rgb(255, 255, 255);
-$color-grey-light: rgb(250, 250, 250);
-$color-grey-light-2: rgb(221, 221, 221);
+$color-white: $pink;
+$color-grey-light: $pink;
+$color-grey-light-2: $pink;
 $color-grey: rgb(136, 136, 136);
-$color-grey-dark: rgb(51, 51, 51);
-$color-grey-dark-2: rgb(85, 85, 85);
-$color-black: rgb(0, 0, 0);
+$color-grey-dark: black;
+$color-grey-dark-2: $black;
+$color-black: $black;
 
 // palette
-$color-primary: rgb(46, 147, 230);
-$color-secondary: rgb(255, 183, 28);
-$color-tertiary: rgb(243, 52, 77);
+$color-primary: $yellow;
+$color-secondary: $green;
+$color-tertiary: $red;
 
 $color-edit: $color-secondary;
 $color-warning: $color-secondary;
